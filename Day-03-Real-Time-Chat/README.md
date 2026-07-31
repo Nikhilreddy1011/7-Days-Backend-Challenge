@@ -706,6 +706,10 @@ Open two browser windows to test
 
 **Nikhil Reddy**
 
-Backend Developer | MERN Stack Developer
+Backend Developer | MERN Stack Developer | AI & ML Enthusiast
 
-7 Days Backend Challenge 🚀
+🌟 7 Days Backend Challenge
+
+Building production-ready backend projects for seven consecutive days to strengthen backend development skills, system design understanding, and scalable application architecture.
+
+If you found this project helpful, consider giving it a ⭐ on GitHub. Your support is appreciated!
