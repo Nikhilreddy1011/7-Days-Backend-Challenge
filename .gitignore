@@ -21,10 +21,16 @@ pnpm-debug.log*
 
 # Coverage
 coverage/
+.nyc_output/
 
 # Build folders
 dist/
 build/
+
+# Cache
+.cache/
+.npm/
+.eslintcache
 
 # OS files
 .DS_Store
@@ -38,8 +44,9 @@ Thumbs.db
 *.tmp
 *.temp
 
-# Docker (optional)
+# Docker local data
 .docker/
 
-# Redis (only if you create local data folders later)
+# Redis local data
 redis-data/
+dump.rdb
