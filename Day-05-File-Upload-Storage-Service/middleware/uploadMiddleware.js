@@ -2,16 +2,29 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-// Make sure uploads folder exists
-const uploadDirectory = path.join(__dirname, "../uploads");
+
+// ==========================================
+// Upload Directory
+// ==========================================
+
+const uploadDirectory = path.join(
+    __dirname,
+    "../uploads"
+);
 
 if (!fs.existsSync(uploadDirectory)) {
+
     fs.mkdirSync(uploadDirectory, {
         recursive: true
     });
+
 }
 
-// Storage configuration
+
+// ==========================================
+// Storage
+// ==========================================
+
 const storage = multer.diskStorage({
 
     destination: function (req, file, cb) {
@@ -23,7 +36,7 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
 
         const uniqueName =
-            `${Date.now()}-${Math.round(Math.random() * 1E9)}${path.extname(file.originalname)}`;
+            `${Date.now()}-${Math.round(Math.random() * 1E9)}${path.extname(file.originalname).toLowerCase()}`;
 
         cb(null, uniqueName);
 
@@ -31,22 +44,73 @@ const storage = multer.diskStorage({
 
 });
 
-// Allowed file types
+
+// ==========================================
+// Allowed MIME Types
+// ==========================================
+
 const allowedMimeTypes = [
 
     "image/jpeg",
+
     "image/png",
+
     "image/webp",
+
     "image/gif",
 
     "application/pdf"
 
 ];
 
-// File validation
+
+// ==========================================
+// Allowed Extensions
+// ==========================================
+
+const allowedExtensions = [
+
+    ".jpg",
+
+    ".jpeg",
+
+    ".png",
+
+    ".webp",
+
+    ".gif",
+
+    ".pdf"
+
+];
+
+
+// ==========================================
+// File Filter
+// ==========================================
+
 const fileFilter = (req, file, cb) => {
 
-    if (allowedMimeTypes.includes(file.mimetype)) {
+    const extension =
+        path.extname(
+            file.originalname
+        ).toLowerCase();
+
+    const validMimeType =
+        allowedMimeTypes.includes(
+            file.mimetype
+        );
+
+    const validExtension =
+        allowedExtensions.includes(
+            extension
+        );
+
+
+    if (
+        validMimeType &&
+        validExtension
+    ) {
 
         cb(null, true);
 
@@ -54,7 +118,7 @@ const fileFilter = (req, file, cb) => {
 
         cb(
             new Error(
-                "Only JPG, PNG, WEBP, GIF images and PDF files are allowed."
+                "Only JPG, JPEG, PNG, WEBP, GIF and PDF files are allowed."
             ),
             false
         );
@@ -63,12 +127,16 @@ const fileFilter = (req, file, cb) => {
 
 };
 
-// Multer configuration
+
+// ==========================================
+// Multer Configuration
+// ==========================================
+
 const upload = multer({
 
-    storage: storage,
+    storage,
 
-    fileFilter: fileFilter,
+    fileFilter,
 
     limits: {
 
@@ -77,5 +145,6 @@ const upload = multer({
     }
 
 });
+
 
 module.exports = upload;
